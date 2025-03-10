@@ -19,10 +19,11 @@ RUN apt-get update && apt-get install -y \
     gettext \  
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install pdo pdo_mysql zip exif intl bcmath gmp
+    && docker-php-ext-install pdo pdo_mysql zip exif intl bcmath gmp opcache
 
 # Copy the custom php.ini
 COPY custom-php.ini /usr/local/etc/php/conf.d/uploads.ini
+COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite

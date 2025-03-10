@@ -7,11 +7,16 @@ permissions:
 on:
   push:
     paths:
-      - 'Dockerfile'
+      - "Dockerfile"
   workflow_dispatch: # allows manual trigger
 
 jobs:
   build_and_publish:
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Set up Docker Buildx
@@ -22,7 +27,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lowercase-ify Repository Name
         run: |
